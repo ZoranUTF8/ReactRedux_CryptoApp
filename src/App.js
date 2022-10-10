@@ -16,16 +16,26 @@ function App() {
       <div className="navbar">
         <Navbar />
       </div>
+
       <div className="main">
         <Layout>
-          <div className="routes"></div>
-          <Routes>
-            <Route exact path="/" element={<Homepage />} />
-            <Route exact path="/razmjena" element={<Exchanges />} />
-            <Route exact path="/kriptovalute" element={<Cryptocurrencies />} />
-            <Route exact path="/kripto/:kryptoId" element={<CryptoDetails />} />
-            <Route exact path="/novosti" element={<News />} />
-          </Routes>
+          <div className="routes">
+            <Routes>
+              <Route exact path="/" element={<Homepage />} />
+              <Route exact path="/razmjena" element={<Exchanges />} />
+              <Route
+                exact
+                path="/kriptovalute"
+                element={<Cryptocurrencies />}
+              />
+              <Route
+                exact
+                path="/kripto/:kryptoId"
+                element={<CryptoDetails />}
+              />
+              <Route exact path="/novosti" element={<News />} />
+            </Routes>
+          </div>
         </Layout>
 
         <div className="footer">
