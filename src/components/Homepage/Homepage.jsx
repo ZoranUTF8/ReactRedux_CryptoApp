@@ -1,17 +1,16 @@
 import millify from "millify";
 import { Typography, Row, TableColumnGroupType, Statistic, Col } from "antd";
 import { Link } from "react-router-dom";
+import { Cryptocurrencies, News } from "../index";
 
 import { useGetCryptosQuery } from "../../services/cryptoApi";
 
 const { Title } = Typography;
 
 const Homepage = () => {
-  const { data, isFetching } = useGetCryptosQuery();
+  const { data, isFetching } = useGetCryptosQuery(10);
 
   const GLOBAL_STATS = data?.data?.stats;
-
-  console.log("GLOBAL_STATS", GLOBAL_STATS);
 
   if (isFetching) return "Loading";
 
@@ -21,7 +20,7 @@ const Homepage = () => {
         Globalna statistika
       </Title>
 
-      <Row>
+      <Row gutter={[32, 32]}>
         <Col span={12}>
           <Statistic
             title="Ukupno kripto valuta"
@@ -53,6 +52,26 @@ const Homepage = () => {
           />
         </Col>
       </Row>
+
+      <div className="home-heading-container">
+        <Title level={2} className="home-title">
+          Top 10 kriptovaluta na svijetu
+        </Title>
+        <Title level={3} className="show-more">
+          <Link to="/kriptovalute">Prikaži više</Link>
+        </Title>
+      </div>
+
+      <Cryptocurrencies simplified />
+      <div className="home-heading-container">
+        <Title level={2} className="home-title">
+          Najnovije kripto vijesti
+        </Title>
+        <Title level={3} className="show-more">
+          <Link to="/novosti">Prikaži više</Link>
+        </Title>
+      </div>
+      <News simplified />
     </>
   );
 };
