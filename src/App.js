@@ -6,7 +6,7 @@ import {
   Homepage,
   Exchanges,
   Cryptocurrencies,
-  CryptoDetails,
+  CryptoDetail,
   News,
 } from "./components";
 
@@ -31,7 +31,7 @@ function App() {
               <Route
                 exact
                 path="/kripto/:kryptoId"
-                element={<CryptoDetails />}
+                element={<CryptoDetail />}
               />
               <Route exact path="/novosti" element={<News />} />
             </Routes>
