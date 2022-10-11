@@ -14,7 +14,11 @@ import {
   NumberOutlined,
   ThunderboltOutlined,
 } from "@ant-design/icons";
-import { useGetCryptoDetailsQuery } from "../../services/cryptoApi";
+import { LineChart } from "../index";
+import {
+  useGetCryptoDetailsQuery,
+  useGetCryptoHistoryQuery,
+} from "../../services/cryptoApi";
 
 const { Title, Text } = Typography;
 const { Option } = Select;
@@ -23,6 +27,10 @@ const CryptoDetail = () => {
   const { kryptoId } = useParams();
   const [timePeriod, setTimePeriod] = useState("7d");
   const { data, isFetching } = useGetCryptoDetailsQuery(kryptoId);
+  const { data: coinHistory, isFetchingHistory } = useGetCryptoHistoryQuery({
+    kryptoId,
+    timePeriod,
+  });
   const cryptoDetails = data?.data?.coin;
 
   const time = ["3h", "24h", "7d", "30d", "1y", "3m", "3y", "5y"];
@@ -88,7 +96,7 @@ const CryptoDetail = () => {
     },
   ];
 
-  if (isFetching) {
+  if (isFetching || isFetchingHistory) {
     return "Loading...";
   } else {
     return (
@@ -108,10 +116,15 @@ const CryptoDetail = () => {
           placeholder="Izbor vremenskog perioda"
           onChange={(value) => setTimePeriod(value)}
         >
-          {time.map((date) => (
-            <Option key={date}>{date}</Option>
+          {time.map((date, ind) => (
+            <Option key={ind}>{date}</Option>
           ))}
         </Select>
+        <LineChart
+          coinHistory={coinHistory}
+          currentPrice={millify(cryptoDetails.price)}
+          coinName={cryptoDetails.name}
+        />
 
         <Col className="stats-container">
           <Col className="coin-value-statistics">
@@ -121,8 +134,8 @@ const CryptoDetail = () => {
               </Title>
               <p>Pregled koji prikazuje statistiku {cryptoDetails.name}'a</p>
             </Col>
-            {stats.map(({ icon, title, value }) => (
-              <Col className="coin-stats">
+            {stats.map(({ icon, title, value }, ind) => (
+              <Col className="coin-stats" key={ind}>
                 <Col className="coin-stats-name">
                   <Text>{icon}</Text>
                   <Text>{title}</Text>
